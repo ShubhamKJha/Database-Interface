@@ -1,0 +1,18 @@
+.side-bar{
+    color: white;
+    background-color: #151515;
+    width: 20px;
+}
+
+.main_view {
+  color: white;
+  background-color: #a5a5a5;
+}
+
+.database{
+  display: flex;
+  height: 80%;
+  flex-direction: row;
+  width: 100%;
+
+}

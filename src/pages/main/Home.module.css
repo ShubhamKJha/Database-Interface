@@ -1,0 +1,25 @@
+.console{
+  grid-area: "terminal-pane";
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  grid-column: 1 / 2;
+}
+.database{
+  grid-area: "side-pane";
+  padding-left: 15px;
+  padding-right: 20px;
+  padding-top: 20px;
+  grid-column: 2 / 3;
+}
+
+
+
+.main{
+  display: grid;
+  width: 100%;
+  min-height: 500px;
+  padding-top: 10px;
+  grid-template-areas: "terminal-pane side-pane";
+  grid-template-columns: 1fr 1fr;
+}
