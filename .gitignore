@@ -4,7 +4,7 @@
 *.so
 
 
-.idea/*
+.idea\*
 
 # Packages
 *.egg
