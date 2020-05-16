@@ -24,13 +24,13 @@ const MessageBody = styled("div")`
 `;
 
 const ConsoleMessage = ({ children, level }) => {
-  const { backgroundColor, textColor, icon } = levels[level];
+  const { backgroundColor, textColor } = levels[level];
   return (
     <MessageContainer
       backgroundColor={backgroundColor}
       textColor={textColor || "black"}
     >
-    
+      <span style={{marginTop: "6px"}}>>>></span>
       <MessageBody>{children}</MessageBody>
     </MessageContainer>
   );

@@ -1,6 +1,6 @@
 export function addToEvalQueue(chunk) {
   return (dispatch, getState) => {
-    dispatch({type: "ADD_TO_EVAL_QUEUE", chunk});
+    dispatch({ type: "ADD_TO_EVAL_QUEUE", chunk });
   };
 }
 

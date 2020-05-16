@@ -47,7 +47,7 @@ export class ConsoleInputUnconnected extends React.Component {
         const { currentLine } = getTextAreaPosition(this.textAreaRef.current);
         return currentLine === 1;
       }
-    
+
       onLastLine() {
         const { currentLine, totalLines } = getTextAreaPosition(
           this.textAreaRef.current
@@ -64,7 +64,7 @@ export class ConsoleInputUnconnected extends React.Component {
         }
       }
 
-      
+
   handleKeyDown(event) {
     if (event.key === "ArrowUp" && this.onFirstLine()) {
       this.props.updateConsoleText(this.textAreaRef.current.value);
@@ -107,7 +107,9 @@ export class ConsoleInputUnconnected extends React.Component {
             boxSizing: "border-box",
             outline: "none",
             margin: "0px",
-            fontSize: "13px",
+            fontSize: "14px",
+            fontWeight: 'bold',
+            color: "green",
             // fontFamily: THEME.client.console.fontFamily
           }}
           value={this.state.consoleText}
@@ -123,7 +125,7 @@ const mapDispatchToProps = {
   consoleHistoryStepBack
 };
 
-export const mapStateToProps = (state) => ({  
+export const mapStateToProps = (state) => ({
     consoleText: state.consoleInput.consoleText
 });
 

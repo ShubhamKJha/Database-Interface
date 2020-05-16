@@ -1,22 +1,22 @@
-export function pressEnter(){
+export function pressEnter() {
   return {
     type: "console/input/PRESS_ENTER"
   };
 }
 
-export function increment(){
+export function increment() {
   return {
     type: "console/input/INCREMENT"
   };
 }
 
-export function decrement(){
+export function decrement() {
   return {
     type: "console/input/DECREMENT"
   };
 }
 
-export function reset(){
+export function reset() {
   return {
     type: "console/input/RESET"
   };

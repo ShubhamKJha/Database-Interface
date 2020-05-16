@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
-import styled from '@emotion/styled';
+// import styles from '@emotion/styled';
 
 import HistoryItem from './console/history/components/history-item';
 import ConsoleInput from './console/input/components/console-input';
 
-import classNames from 'classnames';
+// import classNames from 'classnames';
 
 
 export class ConsolePaneUnconnected extends React.Component {
@@ -42,7 +42,9 @@ export class ConsolePaneUnconnected extends React.Component {
       <div
         className="pane-content"
         style={{
-          overflow: "hidden"
+          overflow: "hidden",
+          height: "365px",
+          border: "solid 1px blue"
         }}
       >
       <div
@@ -53,23 +55,35 @@ export class ConsolePaneUnconnected extends React.Component {
             flexGrow: 1,
             maxWidth: "100%",
             height: "100%",
-            overflow: "hidden"
+            overflow: "hidden",
           }}
         >
           <div
             className="history-items"
             style={{
               flexGrow: 1,
-              maxHeight: "100%",
-              overflow: "auto"
+              maxHeight: "92%",
+              overflow: "auto",
+              color: "green",
+              scroll:"vertical"
             }}
             ref={this.historyScrollerRef}
           >
             {histContents}
           </div>
-          <ConsoleInput />
+            <div
+              className="console-input"
+              style={{
+                flexGrow: 0,
+                backgroundColor: "white",
+                marginBottom: "0",
+                border: "solid 1px red",
+                color: "green",
+              }}>
+              <ConsoleInput />
+            </div>
+          </div>
         </div>
-      </div>
     );
   }
 }

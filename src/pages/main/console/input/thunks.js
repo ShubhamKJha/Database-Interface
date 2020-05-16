@@ -7,7 +7,7 @@ export function evalConsoleInput(consoleText) {
     console.log(consoleText);
     if (!consoleText) return;
     const chunk = {
-      chunkContent: consoleText,
+      chunkContent: consoleText
     };
     dispatch(addToEvalQueue(chunk));
     dispatch(resetConsole());

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import styles from './Footer.module.css';
-import { Container } from 'reactstrap';
+import styles from "./Footer.module.css";
+import { Container } from "reactstrap";
 
 export function Footer(): JSX.Element {
   return (
@@ -10,5 +10,5 @@ export function Footer(): JSX.Element {
         <footer className={styles.footer}>Make fun</footer>
       </Container>
     </div>
-  )
+  );
 }

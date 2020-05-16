@@ -1,7 +1,7 @@
 import { call, put } from "redux-saga/effects";
 
 import {
-  addLoadingLanguageMsgToHistory,
+  // addLoadingLanguageMsgToHistory,
   addPluginParseErrorToHistory
 } from "../../main/console/history/actions";
 import { triggerEvalFrameTask } from "./eval-frame-sender";
@@ -33,6 +33,8 @@ export function* loadLanguagePlugin(pluginData) {
 export function* evaluateLanguagePlugin(pluginText) {
   let pluginData;
   try {
+    pluginText = '{ "name":"John", "age":30, "city":"New York"}';
+
     pluginData = JSON.parse(pluginText);
   } catch (error) {
     yield put(addPluginParseErrorToHistory(error.message));

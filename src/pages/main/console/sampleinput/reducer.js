@@ -1,19 +1,19 @@
-export default function reducer(state, action){
+export default function reducer(state, action) {
   const { sampleInput } = state;
-  switch(action.type){
+  switch (action.type) {
     case "console/input/PRESS_ENTER": {
-      return Object.assign({}, state,{
-          sampleInput: {
-            ...sampleInput,
-            enterPressed: true,
-          }
-        });
+      return Object.assign({}, state, {
+        sampleInput: {
+          ...sampleInput,
+          enterPressed: true
+        }
+      });
     }
     case "console/input/INCREMENT": {
       return Object.assign({}, state, {
         sampleInput: {
           ...sampleInput,
-          numEnterPressed: state.sampleInput.numEnterPressed + 1,
+          numEnterPressed: state.sampleInput.numEnterPressed + 1
         }
       });
     }
@@ -21,7 +21,7 @@ export default function reducer(state, action){
       return Object.assign({}, state, {
         sampleInput: {
           ...sampleInput,
-          numEnterPressed: state.sampleInput.numEnterPressed - 1,
+          numEnterPressed: state.sampleInput.numEnterPressed - 1
         }
       });
     }
@@ -29,7 +29,7 @@ export default function reducer(state, action){
       return Object.assign({}, state, {
         sampleInput: {
           ...sampleInput,
-          numEnterPressed: 0,
+          numEnterPressed: 0
         }
       });
     }

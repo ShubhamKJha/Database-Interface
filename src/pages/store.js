@@ -1,16 +1,16 @@
 import reducer from "./main/console/history/reducer";
-import finalReducer from "./reducers/reducer";
+// import finalReducer from "./reducers/reducer";
 
 import _ from "lodash";
 import { stateSchema } from "./state-schemas/state-schema";
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
-import { applyMiddleware, createStore, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import { applyMiddleware, createStore, compose } from "redux";
+import thunkMiddleware from "redux-thunk";
 import rootSaga from "./actions/sagas/root-saga";
 
-import loggerMiddleware from './middleware/logger';
-import monitorReducerEnhancer from './enhancers/monitorReducer';
+import loggerMiddleware from "./middleware/logger";
+import monitorReducerEnhancer from "./enhancers/monitorReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,10 +19,8 @@ const composedEnhancers = compose(
   middlewareEnhancer,
   monitorReducerEnhancer,
   applyMiddleware(thunk),
-  applyMiddleware(sagaMiddleware),
+  applyMiddleware(sagaMiddleware)
 );
-
-
 
 export function newSchema(schema) {
   const initialState = {};
@@ -33,20 +31,24 @@ export function newSchema(schema) {
   });
   return initialState;
 }
-const initialState = {
-  sampleInput: {
-    numEnterPressed: 0,
-    enterPressed: false
-  },
-  consoleInput: {
-    consoleText: "",
-    consoleTextCache: "",
-    consoleScrollbackPosition: 0
-  },
-  history: []
-}
+// const initialState = {
+//   sampleInput: {
+//     numEnterPressed: 0,
+//     enterPressed: false
+//   },
+//   consoleInput: {
+//     consoleText: "",
+//     consoleTextCache: "",
+//     consoleScrollbackPosition: 0
+//   },
+//   history: []
+// }
 
-const store = createStore(reducer, Object.assign(newSchema(stateSchema), {}), composedEnhancers)
+const store = createStore(
+  reducer,
+  Object.assign(newSchema(stateSchema), {}),
+  composedEnhancers
+);
 
 sagaMiddleware.run(rootSaga);
 const { dispatch } = store;

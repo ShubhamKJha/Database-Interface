@@ -1,15 +1,19 @@
 .console{
   grid-area: "terminal-pane";
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 20px;
+  max-height: 400px;
   grid-column: 1 / 2;
+  background: #252525;
+  margin-left: 20px;
+  margin-top: 20px;
+  border: solid 1px pink;
 }
 .database{
+  margin-right: 20px;
+  margin-top: 20px;
+  max-height: 400px;
+  border: solid 2px cyan;
+  background-color: inherit;
   grid-area: "side-pane";
-  padding-left: 15px;
-  padding-right: 20px;
-  padding-top: 20px;
   grid-column: 2 / 3;
 }
 
@@ -20,6 +24,64 @@
   width: 100%;
   min-height: 500px;
   padding-top: 10px;
+  grid-column-gap: 30px;
   grid-template-areas: "terminal-pane side-pane";
   grid-template-columns: 1fr 1fr;
+}
+
+.root {
+  background: #252525;
+  margin: 40px 0 30px;
+}
+
+.header {
+  display: flex;
+  padding: 10px 20px;
+  background: #151510;
+}
+
+.buttons {
+  display: grid;
+  grid-gap: 6px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.button {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.close {
+  background: #e45f65;
+}
+
+.minimize {
+  background: #f0b23f;
+}
+
+.fullscreen {
+  background: #31b941;
+}
+
+.content {
+  padding: 20px 30px;
+  color: #ccc;
+  min-height: 300px;
+}
+
+.content code {
+  color: #ccc;
+}
+
+.content code b {
+  color: #fff;
+}
+
+.contentSuccess {
+  color: #90ee90;
+}
+
+.con_content{
+
 }

@@ -1,12 +1,12 @@
 .side-bar{
     color: white;
-    background-color: #151515;
     width: 20px;
 }
 
 .main_view {
   color: white;
-  background-color: #a5a5a5;
+  background-color: inherit;
+  min-Height: 396px;
 }
 
 .database{

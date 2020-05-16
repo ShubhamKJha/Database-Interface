@@ -28,21 +28,21 @@ export class HistoryItemUnconnected extends React.Component {
     switch (this.props.historyType) {
       // case "APP_MESSAGE":
       //   return <AppMessage messageType={this.props.content} />;
-      // case "CONSOLE_MESSAGE": {
-      //   // CONSOLE_MESSAGEs are non eval input / output messages.
-      //   // examples: implicit plugin load statuses / errors, eventually browser console
-      //   // interception.
-      //   return (
-      //     <ConsoleMessage level={this.props.level}>
-      //       {this.props.content}
-      //     </ConsoleMessage>
-      //   );
-      // }
+      case "CONSOLE_MESSAGE": {
+        // CONSOLE_MESSAGEs are non eval input / output messages.
+        // examples: implicit plugin load statuses / errors, eventually browser console
+        // interception.
+        return (
+          <ConsoleMessage level={this.props.level}>
+            {this.props.content}
+          </ConsoleMessage>
+        );
+      }
       case "CONSOLE_INPUT": {
         // returns an input.
         return (
           <HistoryInputItem language={this.props.language}>
-            This is Input {this.props.content}
+            {this.props.content}
           </HistoryInputItem>
         );
       }

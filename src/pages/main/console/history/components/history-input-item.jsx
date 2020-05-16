@@ -9,7 +9,7 @@ const InputContainer = styled(ConsoleContainer)`
   overflow: auto;
   margin-bottom: 0px;
   margin-top: 0px;
-  background-color: ${inputBackgroundColor()};
+  background-color: inherit;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 `;
@@ -18,6 +18,8 @@ const InputBody = styled("pre")`
   padding: 0;
   margin: 0;
   padding-top: 5px;
+  color: green;
+  font-size: 15px;
   padding-bottom: 5px;
   font-family: monospace;
   grid-column: 2 / 4;
@@ -31,8 +33,11 @@ InputBody.propTypes = {
 const HistoryInputItem = ({ children }) => {
   return (
     <InputContainer>
-      <InputBody>
-        {children}
+
+      <span style={{
+        marginTop: "2px",
+      }}> >>></span>
+      <InputBody>{children}
       </InputBody>
     </InputContainer>
   );

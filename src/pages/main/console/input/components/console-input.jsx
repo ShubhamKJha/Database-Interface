@@ -5,16 +5,15 @@ import ConsoleInputField from "./console-input-field";
 
 const ConsoleInputContainer = styled("div")`
     display: flex;
-    border-top: 1px solid #ddd;
+    color: green;
 `;
 
 const ConsoleInput = () => {
     return (
         <ConsoleInputContainer>
-            <ConsoleInputField />
+        <span>>>> </span><ConsoleInputField />
         </ConsoleInputContainer>
     );
 };
 
 export default ConsoleInput;
-

@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import styles from './Main.module.css';
+import styles from "./Main.module.css";
 
-import { Header } from '../components/Header';
-import { GradientLine } from '../components/GradientLine';
-import { Footer } from '../components/Footer';
-import { Home } from './main/Home';
+import { Header } from "../components/Header";
+import { GradientLine } from "../components/GradientLine";
+import { Footer } from "../components/Footer";
+import { Home } from "./main/Home";
+// import { Link } from 'react-router-dom';
 
 function Main(): JSX.Element {
   return (
@@ -15,7 +16,7 @@ function Main(): JSX.Element {
       <Home />
       <Footer />
     </div>
-  )
+  );
 }
 
 export default Main;

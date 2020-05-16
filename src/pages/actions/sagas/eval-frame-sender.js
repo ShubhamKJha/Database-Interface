@@ -16,6 +16,7 @@ export function sendTaskToEvalFrame(taskType, payload) {
 export function* triggerEvalFrameTask(taskType, payload) {
   const taskId = yield call(sendTaskToEvalFrame, taskType, payload);
   const response = yield take(`EVAL_FRAME_TASK_RESPONSE-${taskId}`);
+  console.log("Here reached");
   if (response.status === "ERROR") {
     throw new Error(`EVAL_FRAME_TASK_RESPONSE-${taskId}-FAILED`);
   }
