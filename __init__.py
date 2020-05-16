@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-from . import database
+from flaskr.templates.database import bp
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 static_dir = os.path.dirname(os.path.dirname(__file__)) + "/static"
@@ -21,9 +21,9 @@ def create_app(test_config=None):
     @app.route('/home/sql', methods=['GET', 'POST'])
     def sql():
         return "Hello"
-    
 
-    app.register_blueprint(database.bp)
+
+    app.register_blueprint(bp)
     # from . import auth, profile
     # app.register_blueprint(auth.bp)
     # app.register_blueprint(profile.bp)
