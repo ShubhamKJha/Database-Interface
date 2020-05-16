@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+{#    <h1>Hi, {{ current_user.username }}!</h1>#}
+    <div class="my-console" id="my-console">
+    {% if histories %}
+        <table>
+        {% for history, output in histories %}
+            {% for row in history %}
+            <tr class="input"><td>>>> </td><td>{{ row }}</td></tr>
+            {% endfor %}
+            {% for row in output %}
+            <tr class="output"><td> </td><td>{{ row }}</td></tr>
+            {%  endfor %}
+        {% endfor %}
+        </table>
+    {% endif %}
+    </div>
+    <form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>{{ form.statement(size=30) }} {{ form.submit() }}</p>
+    </form>
+    <style>
+        .my-console{
+            background-color: black;
+            font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+            color: #3A7734;
+            margin:4px 4px;
+            padding:4px;
+            width: 500px;
+            height: 500px;
+            overflow-x: hidden;
+            overflow-x: auto;
+            text-align:justify;
+        }
+        .input, .output{
+            color: darkgreen;
+            white-space: pre;
+        }
+    </style>
+    <script>
+    let scrolled = false;
+    function updateScroll(){
+        if(!scrolled) {
+            let console = document.getElementById("my-console");
+            console.scrollTop = console.scrollHeight;
+        }
+    }
+
+    document.getElementById('my-console').addEventListener("scroll", () => {scrolled = true;});
+
+    updateScroll();
+    </script>
+{% endblock %}
