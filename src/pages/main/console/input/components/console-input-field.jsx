@@ -1,69 +1,69 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import { connect }  from 'react-redux';
+import { connect } from "react-redux";
 
 import { updateConsoleText, consoleHistoryStepBack } from "../actions";
 import { evalConsoleInput } from "../thunks";
 
 export function getTextAreaPosition(textArea) {
-    return {
-        currentLine: textArea.value.substr(0, textArea.selectionStart).split("\n").length,
-        totalLines: textArea.value.split("\n").length
-    };
+  return {
+    currentLine: textArea.value.substr(0, textArea.selectionStart).split("\n")
+      .length,
+    totalLines: textArea.value.split("\n").length
+  };
 }
 
 export class ConsoleInputUnconnected extends React.Component {
-    static propTypes = {
-        consoleText: PropTypes.string.isRequired,
-        updateConsoleText: PropTypes.func.isRequired,
-        consoleHistoryStepBack: PropTypes.func.isRequired,
-        evalConsoleInput: PropTypes.func.isRequired
+  static propTypes = {
+    consoleText: PropTypes.string.isRequired,
+    updateConsoleText: PropTypes.func.isRequired,
+    consoleHistoryStepBack: PropTypes.func.isRequired,
+    evalConsoleInput: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    this.textAreaRef = React.createRef();
+    this.containerRef = React.createRef();
+    this.handleTextInput = this.handleTextInput.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.state = {
+      consoleText: this.props.consoleText,
+      prevPropsConsoleText: this.props.consoleText
     };
+  }
 
-    constructor(props) {
-        super(props);
-        this.textAreaRef = React.createRef();
-        this.containerRef = React.createRef();
-        this.handleTextInput = this.handleTextInput.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.state = {
-            consoleText: this.props.consoleText,
-            prevPropsConsoleText: this.props.consoleText
-        };
+  static getDerivedStateFromProps(props, state) {
+    if (props.consoleText !== state.prevPropsConsoleText) {
+      return {
+        consoleText: props.consoleText,
+        prevPropsConsoleText: props.consoleText,
+        justEvaled: false
+      };
     }
+    return null;
+  }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.consoleText !== state.prevPropsConsoleText) {
-          return {
-            consoleText: props.consoleText,
-            prevPropsConsoleText: props.consoleText,
-            justEvaled: false
-          };
-        }
-        return null;
-      }
+  onFirstLine() {
+    const { currentLine } = getTextAreaPosition(this.textAreaRef.current);
+    return currentLine === 1;
+  }
 
-      onFirstLine() {
-        const { currentLine } = getTextAreaPosition(this.textAreaRef.current);
-        return currentLine === 1;
-      }
+  onLastLine() {
+    const { currentLine, totalLines } = getTextAreaPosition(
+      this.textAreaRef.current
+    );
+    return currentLine === totalLines;
+  }
 
-      onLastLine() {
-        const { currentLine, totalLines } = getTextAreaPosition(
-          this.textAreaRef.current
-        );
-        return currentLine === totalLines;
-      }
-
-      handleTextInput(event) {
-        // this check is required to prevent the insertion of a newline
-        // after eval b/c of a pernicious race condition between the
-        // keypress and onchange events, setState, and getDerivedStateFromProps
-        if (event.target.value !== "\n") {
-          this.setState({ consoleText: event.target.value });
-        }
-      }
-
+  handleTextInput(event) {
+    // this check is required to prevent the insertion of a newline
+    // after eval b/c of a pernicious race condition between the
+    // keypress and onchange events, setState, and getDerivedStateFromProps
+    if (event.target.value !== "\n") {
+      this.setState({ consoleText: event.target.value });
+    }
+  }
 
   handleKeyDown(event) {
     if (event.key === "ArrowUp" && this.onFirstLine()) {
@@ -108,8 +108,8 @@ export class ConsoleInputUnconnected extends React.Component {
             outline: "none",
             margin: "0px",
             fontSize: "14px",
-            fontWeight: 'bold',
-            color: "green",
+            fontWeight: "bold",
+            color: "green"
             // fontFamily: THEME.client.console.fontFamily
           }}
           value={this.state.consoleText}
@@ -125,10 +125,9 @@ const mapDispatchToProps = {
   consoleHistoryStepBack
 };
 
-export const mapStateToProps = (state) => ({
-    consoleText: state.consoleInput.consoleText
+export const mapStateToProps = state => ({
+  consoleText: state.consoleInput.consoleText
 });
-
 
 export default connect(
   mapStateToProps,

@@ -1,18 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { isEqual } from 'lodash';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { isEqual } from "lodash";
 // import styles from '@emotion/styled';
 
-import HistoryItem from './console/history/components/history-item';
-import ConsoleInput from './console/input/components/console-input';
+import HistoryItem from "./console/history/components/history-item";
+import ConsoleInput from "./console/input/components/console-input";
 
 // import classNames from 'classnames';
 
-
 export class ConsolePaneUnconnected extends React.Component {
   static propTypes = {
-    historyIds: PropTypes.arrayOf(PropTypes.string),
+    historyIds: PropTypes.arrayOf(PropTypes.string)
   };
 
   constructor(props) {
@@ -30,12 +29,11 @@ export class ConsolePaneUnconnected extends React.Component {
 
   render() {
     let histContents = [];
-    if(this.props.historyIds.length) {
+    if (this.props.historyIds.length) {
       histContents = this.props.historyIds.map(historyId => (
         <HistoryItem historyId={historyId} key={historyId} />
       ));
     } else {
-
     }
 
     return (
@@ -47,7 +45,7 @@ export class ConsolePaneUnconnected extends React.Component {
           border: "solid 1px blue"
         }}
       >
-      <div
+        <div
           className="console-pane"
           style={{
             display: "flex",
@@ -55,7 +53,7 @@ export class ConsolePaneUnconnected extends React.Component {
             flexGrow: 1,
             maxWidth: "100%",
             height: "100%",
-            overflow: "hidden",
+            overflow: "hidden"
           }}
         >
           <div
@@ -65,49 +63,46 @@ export class ConsolePaneUnconnected extends React.Component {
               maxHeight: "92%",
               overflow: "auto",
               color: "green",
-              scroll:"vertical"
+              scroll: "vertical"
             }}
             ref={this.historyScrollerRef}
           >
             {histContents}
           </div>
-            <div
-              className="console-input"
-              style={{
-                flexGrow: 0,
-                backgroundColor: "white",
-                marginBottom: "0",
-                border: "solid 1px red",
-                color: "green",
-              }}>
-              <ConsoleInput />
-            </div>
+          <div
+            className="console-input"
+            style={{
+              flexGrow: 0,
+              backgroundColor: "white",
+              marginBottom: "0",
+              border: "solid 1px red",
+              color: "green"
+            }}
+          >
+            <ConsoleInput />
           </div>
         </div>
+      </div>
     );
   }
 }
 
-
 function areStatesEqual(next, prev) {
-  return (
-    isEqual(
-      next.history.map(h => h.historyId),
-      prev.history.map(h => h.historyId)
-    )
+  return isEqual(
+    next.history.map(h => h.historyId),
+    prev.history.map(h => h.historyId)
   );
 }
 
 export function mapStateToProps(state) {
   return {
-    historyIds: state.history.map(h => h.historyId),
+    historyIds: state.history.map(h => h.historyId)
   };
 }
 
 export default connect(mapStateToProps, null, null, { areStatesEqual })(
   ConsolePaneUnconnected
 );
-
 
 /*
 export function Console(): JSX.Element {

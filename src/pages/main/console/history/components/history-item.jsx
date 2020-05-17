@@ -24,7 +24,7 @@ export class HistoryItemUnconnected extends React.Component {
   };
 
   render() {
-    console.log(this.props.historyType);
+    console.log(this.props);
     switch (this.props.historyType) {
       // case "APP_MESSAGE":
       //   return <AppMessage messageType={this.props.content} />;
@@ -49,7 +49,7 @@ export class HistoryItemUnconnected extends React.Component {
       case "CONSOLE_OUTPUT": {
         return (
           <ConsoleMessage level={this.props.level || "OUTPUT"}>
-            This is output:
+            {this.props.content}
           </ConsoleMessage>
         );
       }
@@ -61,11 +61,7 @@ export class HistoryItemUnconnected extends React.Component {
       //   );
       // }
       default:
-        return (
-          <div >
-            Unknown history type {this.props.historyType}
-          </div>
-        );
+        return <div>Unknown history type {this.props.historyType}</div>;
     }
   }
 }

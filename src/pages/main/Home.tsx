@@ -16,7 +16,7 @@ export function Home(): JSX.Element {
             <div className={classNames([styles.button, styles.fullscreen])} />
           </div>
         </div>
-        <div className={styles.con_content}>
+        <div className={styles.con_content} id="console_pane">
           <Console />
         </div>
       </div>

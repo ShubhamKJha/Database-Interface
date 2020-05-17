@@ -33,12 +33,15 @@ InputBody.propTypes = {
 const HistoryInputItem = ({ children }) => {
   return (
     <InputContainer>
-
-      <span style={{
-        marginTop: "2px",
-      }}> >>></span>
-      <InputBody>{children}
-      </InputBody>
+      <span
+        style={{
+          marginTop: "2px"
+        }}
+      >
+        {" "}
+        >>>
+      </span>
+      <InputBody>{children}</InputBody>
     </InputContainer>
   );
 };

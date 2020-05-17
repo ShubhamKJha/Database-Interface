@@ -31,11 +31,12 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
+    "dev": "parcel \"public/index.html\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier \"src/**/*.{js,html,tsx}\" --write",
+    "format": "prettier \"src/**/*.{js,html,tsx,jsx}\" --write",
     "lint": "eslint \"src/**/*.{js, jsx}\" --quiet"
   },
   "eslintConfig": {
@@ -59,12 +60,13 @@
     "react-router-dom": "^5.1.2",
     "react-spring": "^8.0.27",
     "prettier": "^1.17.0",
-    "eslint": "^7.0.0",
+    "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx": "^0.1.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-react-hooks": "^4.0.0"
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "parcel-bundler": "^1.12.4"
   }
 }

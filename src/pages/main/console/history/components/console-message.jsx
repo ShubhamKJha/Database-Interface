@@ -30,7 +30,7 @@ const ConsoleMessage = ({ children, level }) => {
       backgroundColor={backgroundColor}
       textColor={textColor || "black"}
     >
-      <span style={{marginTop: "6px"}}>>>></span>
+      <span style={{ marginTop: "6px" }}>>>></span>
       <MessageBody>{children}</MessageBody>
     </MessageContainer>
   );

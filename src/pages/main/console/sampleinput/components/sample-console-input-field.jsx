@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import { connect }  from 'react-redux';
-import { increment, reset, decrement, pressEnter } from '../actions';
+import { connect } from "react-redux";
+import { increment, reset, decrement, pressEnter } from "../actions";
 
 export function getTextAreaPosition(textArea) {
   return {
@@ -11,39 +11,37 @@ export function getTextAreaPosition(textArea) {
   };
 }
 
-
-
 export class SampleConsoleInputUnconnected extends React.Component {
-    static propTypes = {
-        consoleText: PropTypes.string.isRequired,
-        increment: PropTypes.func.isRequired,
-        decrement: PropTypes.func.isRequired,
-        reset: PropTypes.func.isRequired
-    };
+  static propTypes = {
+    consoleText: PropTypes.string.isRequired,
+    increment: PropTypes.func.isRequired,
+    decrement: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired
+  };
 
-    constructor(props) {
-        super(props);
-        this.textAreaRef = React.createRef();
-        this.containerRef = React.createRef();
-        this.handleTextInput = this.handleTextInput.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.state = {
-            consoleText: this.props.consoleText,
-            prevPropsConsoleText: this.props.consoleText
-        };
+  constructor(props) {
+    super(props);
+    this.textAreaRef = React.createRef();
+    this.containerRef = React.createRef();
+    this.handleTextInput = this.handleTextInput.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.state = {
+      consoleText: this.props.consoleText,
+      prevPropsConsoleText: this.props.consoleText
+    };
+  }
+  handleTextInput(event) {
+    // this check is required to prevent the insertion of a newline
+    // after eval b/c of a pernicious race condition between the
+    // keypress and onchange events, setState, and getDerivedStateFromProps
+    if (event.target.value !== "\n") {
+      this.setState({ consoleText: event.target.value });
     }
-    handleTextInput(event) {
-        // this check is required to prevent the insertion of a newline
-        // after eval b/c of a pernicious race condition between the
-        // keypress and onchange events, setState, and getDerivedStateFromProps
-        if (event.target.value !== "\n") {
-          this.setState({ consoleText: event.target.value });
-        }
-      }
+  }
   onFirstLine() {
-      const { currentLine } = getTextAreaPosition(this.textAreaRef.current);
-      return currentLine === 1;
-    }
+    const { currentLine } = getTextAreaPosition(this.textAreaRef.current);
+    return currentLine === 1;
+  }
 
   onLastLine() {
     const { currentLine, totalLines } = getTextAreaPosition(
@@ -95,7 +93,7 @@ export class SampleConsoleInputUnconnected extends React.Component {
             boxSizing: "border-box",
             outline: "none",
             margin: "0px",
-            fontSize: "13px",
+            fontSize: "13px"
             // fontFamily: THEME.client.console.fontFamily
           }}
           value={this.state.consoleText}
@@ -112,10 +110,9 @@ const mapDispatchToProps = {
   pressEnter
 };
 
-export const mapStateToProps = (state) => ({
-    consoleText: state.consoleInput.consoleText
+export const mapStateToProps = state => ({
+  consoleText: state.consoleInput.consoleText
 });
-
 
 export default connect(
   mapStateToProps,

@@ -33,8 +33,7 @@ export function* loadLanguagePlugin(pluginData) {
 export function* evaluateLanguagePlugin(pluginText) {
   let pluginData;
   try {
-    pluginText = '{ "name":"John", "age":30, "city":"New York"}';
-
+    console.log(pluginText);
     pluginData = JSON.parse(pluginText);
   } catch (error) {
     yield put(addPluginParseErrorToHistory(error.message));

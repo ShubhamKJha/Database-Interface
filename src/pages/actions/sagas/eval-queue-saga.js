@@ -8,7 +8,6 @@ import {
 } from "redux-saga/effects";
 
 import { setKernelState } from "../eval-actions";
-import { addToConsoleHistory } from "../../main/console/history/actions";
 
 import {
   //   languageNeedsLoading,
@@ -17,21 +16,59 @@ import {
 } from "./language-plugin-saga";
 
 import {
-  addInputToConsole
+  addInputToConsole,
+  addToConsoleHistory
   // addEvalTypeConsoleErrorHistory
 } from "../../main/console/history/actions";
 
-export function* eveluateByType(evalType, evalText, chunkId) {
+export function* eveluateByType(evalText, evalType = "python", chunkId) {
   // const state = yield select();
-  yield put(addInputToConsole(evalType, evalText));
-  yield put(
-    addToConsoleHistory({
-      historyType: "CONSOLE_OUTPUT",
-      content: "evalText",
-      language: "python"
-    })
-  );
-  yield call(evaluateLanguagePlugin, evalText);
+  console.log("evalType: ", evalType, " evalText: ", evalText, " chunkId: ", chunkId);
+  yield put(addInputToConsole(evalText, evalType));
+
+  const init = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({"command":evalText})
+  };
+  const url = "/console/exec";
+  const response = yield call(fetch, url, init);
+  // console.log("Response: ",response.json());
+  // response.json().then((data) => {
+  //      yield put(
+  //      addToConsoleHistory({
+  //        historyType: "CONSOLE_OUTPUT",
+  //        content: data,
+  //        language: "python"
+  //      })
+  //    );
+  // });
+   // fetch("/console/exec", init)
+   //  .then(res => res.json())
+   //  .then(data => {
+   //    yield put(
+   //      addToConsoleHistory({
+   //        historyType: "CONSOLE_OUTPUT",
+   //        content: data,
+   //        language: "python"
+   //      })
+   //    );
+   //    return data;
+   //  })
+   //  .catch(error => {
+   //    console.error("Error:", error);
+   //  });
+   //  console.log("result:", result);
+   //  yield put(
+   //    addToConsoleHistory({
+   //      historyType: "CONSOLE_OUTPUT",
+   //      content: result,
+   //      language: "python"
+   //    })
+   //  );
+  // yield call(evaluateLanguagePlugin, evalText);
 }
 
 export function* evaluateCurrentQueue() {
