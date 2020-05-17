@@ -11,7 +11,8 @@ This project assumes that you have already installed python3.
 
 After installing all the dependencies setup project.
 - Go to **parent** directory of this application in terminal.
-- Run `export FLASK_APP=flaskr`.
+- Run `export FLASK_APP=app`.
+- Run `flask db upgrade`
 - Run `flask run`.
 
 
