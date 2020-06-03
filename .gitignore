@@ -38,6 +38,7 @@ nosetests.xml
 .project
 .pydevproject
 
+flask-env
 venv
 app.db
 microblog.log*

@@ -18,24 +18,19 @@ def sql():
 
 @app.route('/console/exec', methods=['POST', 'GET'])
 def execute_command():
-    print("connect: ", request.get_json())
     statement = request.get_json()['command']
     stream = StringIO()
-    print("Statemet: ",statement)
     shell.evaluate(statement, stream=stream)
-    print("Stream: ",stream.getvalue())
     return jsonify({'result': "successfully connected", 'value':stream.getvalue()})
 
 
 
 @app.route('/db/connect', methods=['POST', 'GET'])
 def connect():
-    print("connect: ", request.get_json())
     Endpoint = request.get_json()['Endpoint']
     Database = request.get_json()['Database']
     Userame = request.get_json()['Username']
     Password = request.get_json()['Password']
-    db = MongoClient()
     return jsonify({'result': "successfully connected"})
 
 

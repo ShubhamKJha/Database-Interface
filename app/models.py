@@ -2,9 +2,19 @@ import pickle
 from datetime import datetime
 from hashlib import md5
 from app import db
-from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from io import StringIO
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), index=True, unique=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    password = db.Column(db.String(128))
+
+    def __repr__(self):
+        return '<User> {}'.format(self.username)
+
 
 class Picklables(db.Model):
     id = db.Column(db.Integer, primary_key=True)
