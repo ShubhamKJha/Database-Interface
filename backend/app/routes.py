@@ -49,6 +49,7 @@ def execute_command():
 
 
 @app.route('/db/connect', methods=['POST', 'GET'])
+@jwt_required
 def connect():
     Endpoint = request.get_json()['Endpoint']
     Database = request.get_json()['Database']
