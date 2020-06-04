@@ -6,9 +6,9 @@ class BaseDatabase(object):
     Abstract class for all databases
     """
 
-    def __new__(cls, db, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
         obj = object.__new__(cls)
-        obj.db = db  # Database file
+        # obj.db = db  # Database file
         obj.args = args
         obj.kwargs = kwargs
         obj._connected = False

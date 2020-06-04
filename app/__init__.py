@@ -10,6 +10,6 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
+bcrypt = Bcrypt(app)
 
-# prettier-ignore
-from app import routes, models
+from app import routes, models, auth, sqlite, mongodb, postgresql, mysql

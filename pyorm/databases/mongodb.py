@@ -1,26 +1,26 @@
-__author__ = "ShubhamKJha<skjha832@gmail.com>"
-
-import pymysql
+from pymongo import MongoClient
 from pyorm.databases.base import BaseDatabase, DatabaseException
 
 
-class MysqlDatabase(BaseDatabase):
-    def __new__(cls, *args, **kwargs):
-        obj = BaseDatabase.__new__(cls, *args, **kwargs)
-        obj.name = 'mysql'
-        # obj.connect()
-        # obj.cursor = obj.engine.cursor()
+class MongoDBDatabase(BaseDatabase):
+    def __new__(cls, db, *args, **kwargs):
+        obj = BaseDatabase.__new__(cls, db, *args, **kwargs)
+        obj.name = 'mongo'
+        obj.connect()
+        obj.cursor = obj.engine
         return obj
 
-    def connect(self, **kwargs):
+    def connect(self):
         if self.connected:
             return self.engine
 
         try:
-            self.engine = pymysql.connect(**kwargs)
+            self.kwargs['database'] = self.db
+            self.engine = MongoClient(
+                host="localhost", database="hritik", user="postgres", password="chinchi789")
             self._connected = True
             return self.engine
-        except pymysql.OperationalError as e:
+        except pymongo.OperationalError as e:
             raise DatabaseException(e)
 
     def close(self):
