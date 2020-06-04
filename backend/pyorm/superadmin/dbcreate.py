@@ -1,7 +1,7 @@
 
 from .dbconfig import ROOT_PASS, ROOT_HOST, HOST
 import pymysql, sqlite3
-from backend.config import BASE_DIR
+from config import BASE_DIR
 import os
 
 

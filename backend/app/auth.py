@@ -10,7 +10,7 @@ from app.models import User
 import os
 from config import BASE_DIR
 
-from backend.pyorm.superadmin.dbcreate import create_all
+from pyorm.superadmin.dbcreate import create_all
 
 bcrypt = Bcrypt()
 
@@ -22,7 +22,7 @@ def Logout():
     return jsonify({"response": "successfull"})
 
 
-@app.route("/auth/login", methods=['GET', 'POST'])
+@app.route("/auth/login", methods=['POST'])
 def Login():
     email = request.get_json()['email']
     password = request.get_json()['password']
