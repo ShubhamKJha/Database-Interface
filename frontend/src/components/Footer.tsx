@@ -7,7 +7,7 @@ export function Footer(): JSX.Element {
   return (
     <div className={styles.footerContainer}>
       <Container>
-        <footer className={styles.footer}>Make fun</footer>
+        <footer className={styles.footer}></footer>
       </Container>
     </div>
   );
