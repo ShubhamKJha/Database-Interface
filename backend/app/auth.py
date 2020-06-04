@@ -7,6 +7,8 @@ from flask_jwt_extended import create_access_token
 from flask_bcrypt import Bcrypt
 from app import app, db
 from app.models import User
+import os
+from config import BASE_DIR
 
 bcrypt = Bcrypt()
 
@@ -35,7 +37,7 @@ def Login():
                 'email': response.email
             }, expires_delta=expires)
             print(access_token)
-            return jsonify({'success': 'true', 'access_token': "access_token"})
+            return jsonify({'success': 'true', 'access_token': access_token})
     return jsonify({"response": "Invalid username or password", "success": "false"})
 
 
@@ -45,16 +47,18 @@ def Signup():
     password = request.get_json()['password']
     username = request.get_json()['username']
 
-    password_hash = bcrypt.generate_password_hash(password)).decode('utf-8')
+    password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    user_email, user_username = User.query.filter_by(email=email).first(),
+    user_email, user_username = User.query.filter_by(email=email).first(), \
                                 User.query.filter_by(username=username).first()
     if user_email or user_username:
         return jsonify({'success': 'false', 'response': 'Username/Email already exists'})
     else:
-        u = User(email=email, password=password, username=username)
+        u = User(email=email, password=password_hash, username=username)
         db.session.add(u)
         db.session.commit()
+
+        os.mkdir(os.path.join(BASE_DIR, 'userspaces', username))
         return jsonify({'success': 'true', "response": "User created"})
 
 

@@ -4,6 +4,9 @@ from flask import (
 from app import app, db
 from app.terminal import Shell
 from io import StringIO
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+
+from app.models import User, History
 
 shell = Shell()
 
@@ -16,11 +19,31 @@ def sql():
     return "Hello"
 
 
+@app.route('/console/history', methods=['POST', 'GET'])
+@jwt_required
+def get_history():
+    user = get_jwt_identity()
+    user = User.query.filter_by(username=user['username']).first()
+
+    history = [(h.history_statement, h.history_result) for h in \
+        History.query.filter_by(user_id=user.id)]
+
+    return jsonify({'result':'successfull', 'history': history})
+
+
+
 @app.route('/console/exec', methods=['POST', 'GET'])
+@jwt_required
 def execute_command():
     statement = request.get_json()['command']
     stream = StringIO()
     shell.evaluate(statement, stream=stream)
+
+    user_id = get_jwt_identity()['id']
+
+    history = History(user_id=user_id, history_statement=statement, history_result=stream.getvalue())
+    db.session.add(history)
+    db.session.commit()
     return jsonify({'result': "successfully connected", 'value':stream.getvalue()})
 
 

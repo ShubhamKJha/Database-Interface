@@ -13,6 +13,8 @@ from io import StringIO, BytesIO
 from .models import Picklables, UnPicklables, UnPicklableNames, History
 from . import db
 
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+
 
 # These types can't be pickled
 # Hence, the commands needs to
@@ -26,10 +28,11 @@ UNPICKLABLE_TYPES = (
 
 
 def clear_data():
-    Picklables.query.delete()
-    UnPicklables.query.delete()
-    UnPicklableNames.query.delete()
-    History.query.delete()
+    user_id = get_jwt_identity()['id']
+    Picklables.query.filter_by(user_id=user_id).delete()
+    UnPicklables.query.filter_by(user_id=user_id).delete()
+    UnPicklableNames.query.filter_by(user_id=user_id).delete()
+    History.query.filter_by(user_id=user_id).delete()
 
 
 # Add magic key-words here and their
@@ -50,13 +53,14 @@ def fast_dumps(obj, protocol=3):
 
 def set_global(name, value, commit=True):
     blob = fast_dumps(value)
+    user_id = get_jwt_identity()['id']
 
-    picklable = Picklables.query.filter_by(global_name=name).first()
+    picklable = Picklables.query.filter_by(global_name=name).filter_by(user_id=user_id).first()
 
     if picklable is not None:
         picklable.global_ = blob
     else:
-        picklable = Picklables(global_name=name, global_=blob)
+        picklable = Picklables(user_id=user_id,global_name=name, global_=blob)
         db.session.add(picklable)
 
     remove_unpicklable_name(name, False)
@@ -66,7 +70,8 @@ def set_global(name, value, commit=True):
 
 
 def remove_global(name, commit=True):
-    picklable = Picklables.query.filter_by(global_name=name).first()
+    user_id = get_jwt_identity()['id']
+    picklable = Picklables.query.filter_by(global_name=name).filter_by(user_id=user_id).first()
 
     if picklable is not None:
         db.session.delete(picklable)
@@ -76,29 +81,33 @@ def remove_global(name, commit=True):
 
 
 def globals_dict():
+    user_id = get_jwt_identity()['id']
     return dict((picklable.global_name, pickle.loads(picklable.global_)) for picklable in
-                Picklables.query.all())
+                Picklables.query.filter_by(user_id=user_id).all())
 
 
 def get_unpicklables():
-    return [unpicklable.unpicklable for unpicklable in UnPicklables.query.all()]
+    user_id = get_jwt_identity()['id']
+    return [unpicklable.unpicklable for unpicklable in UnPicklables.query.filter_by(user_id=user_id).all()]
 
 
 def add_unpicklable(statement, names, commit=True):
-    unpicklable = UnPicklables(unpicklable=statement)
+    user_id = get_jwt_identity()['id']
+    unpicklable = UnPicklables(user_id=user_id,unpicklable=statement)
     db.session.add(unpicklable)
 
     for name in names:
         remove_global(name, False)
-        if UnPicklableNames.query.filter_by(unpicklable_name =name).first() is None:
-            db.session.add(UnPicklableNames(unpicklable_name=name))
+        if UnPicklableNames.query.filter_by(user_id=user_id).filter_by(unpicklable_name =name).first() is None:
+            db.session.add(UnPicklableNames(user_id=user_id,unpicklable_name=name))
 
     if commit:
         db.session.commit()
 
 
 def remove_unpicklable_name(name, commit=True):
-    unpicklable_name = UnPicklableNames.query.filter_by(unpicklable_name=name).first()
+    user_id = get_jwt_identity()['id']
+    unpicklable_name = UnPicklableNames.query.filter_by(unpicklable_name=name).filter_by(user_id=user_id).first()
     if unpicklable_name is not None:
         db.session.delete(unpicklable_name)
 
