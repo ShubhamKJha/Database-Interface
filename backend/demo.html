@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+</head>
+<body>
+<p>Sign Up form</p>
+    <form action="http://localhost:5000/auth/signup" method="post" id="signup-form">
+        <label>Username:<input type="text" value="Username"></label><br>
+        <label>Password:<input type="password" value="password" name="password"></label><br>
+        <input type="submit" value="sign-up" name="submit">
+        </form>
+
+<div class="json-viewer" id="json-viewer"></div>
+
+
+<script>
+
+    const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+        data[element.name] = element.value;
+        return data;
+    }, {});
+
+    const jsonDisply = event => {
+        event.preventDefault();
+
+        const data = formToJSON(form.elements);
+        const out_body = document.getElementById('json-viewer')[0];
+
+        out_body.textContent = JSON.stringify(data, null, " ");
+
+    };
+
+    const form = document.getElementById('signup-form')[0];
+    alert(form.elements[0]);
+    form.addEventListener('submit', jsonDisply);
+
+</script>
+</body>
+</html>

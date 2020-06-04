@@ -10,6 +10,8 @@ from app.models import User
 import os
 from config import BASE_DIR
 
+from backend.pyorm.superadmin.dbcreate import create_all
+
 bcrypt = Bcrypt()
 
 
@@ -58,7 +60,12 @@ def Signup():
         db.session.add(u)
         db.session.commit()
 
+        # create user space
         os.mkdir(os.path.join(BASE_DIR, 'userspaces', username))
+
+        # create user databases
+        create_all(username, password)
+
         return jsonify({'success': 'true', "response": "User created"})
 
 
