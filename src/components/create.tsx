@@ -30,7 +30,8 @@ const Create = () => {
       },
       body: JSON.stringify(data)
     };
-    fetch("/db/create", init)
+    console.log("localstorage database", localStorage.getItem("database"));
+    fetch("/db/" + localStorage.getItem("database") + "/create", init)
       .then(res => res.json())
       .then(data => console.log(data))
       .catch(error => {

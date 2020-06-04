@@ -19,7 +19,8 @@ class Connect extends React.Component<any, any> {
       UserName: "",
       Password: "",
       Database: "mysql",
-      DatabaseName: ""
+      DatabaseName: "",
+      color: "white"
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -44,10 +45,17 @@ class Connect extends React.Component<any, any> {
       },
       body: JSON.stringify(data)
     };
-    fetch("/db/connect", init)
+    fetch("/db/" + this.state.Database + "/connect", init)
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        console.log(data);
+        if (data["result"] == "OK") {
+          localStorage.setItem("database", this.state.Database);
+          this.setState({ color: "green" });
+        }
+      })
       .catch(error => {
+        this.setState({ color: "red" });
         console.error("Error:", error);
       });
   }
@@ -74,7 +82,7 @@ class Connect extends React.Component<any, any> {
             onClick={this.handleClickOpen}
             aria-label="add"
           >
-            <LinkIcon style={{ color: "white" }} />
+            <LinkIcon style={{ color: this.state.color }} />
           </IconButton>
         </Tooltip>
         <Dialog

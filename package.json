@@ -22,6 +22,7 @@
     "http-proxy-middleware": "^1.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-native": "^0.62.2",
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.1",
     "reactstrap": "^8.4.1",
@@ -57,9 +58,6 @@
   "devDependencies": {
     "@material-ui/lab": "^4.0.0-alpha.52",
     "@react-spring/web": "^9.0.0-beta.34",
-    "react-router-dom": "^5.1.2",
-    "react-spring": "^8.0.27",
-    "prettier": "^1.17.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
@@ -67,6 +65,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.0",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^1.17.0",
+    "react-router-dom": "^5.1.2",
+    "react-spring": "^8.0.27"
   }
 }

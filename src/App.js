@@ -2,22 +2,18 @@ import React, { Component } from "react";
 import "./App.css";
 import List from "./pages/List";
 import Main from "./pages/Main";
-import { Switch, Route } from "react-router-dom";
-
+import { Switch, Router, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
+import AuthPage from "./components/AuthPage";
+import history from "./utils/history";
 class App extends Component {
   render() {
-    const App = () => (
-      <div>
-        <Switch>
-          <Route exact path="/list" component={List} />
-          <Route path="/" component={Main} />
-        </Switch>
-      </div>
-    );
     return (
-      <Switch>
-        <App />
-      </Switch>
+      <Router history={history}>
+        <Route path="/list" component={List} />
+        <Route path="/home" component={Main} />
+        <Route exact path="/" component={LandingPage} />
+      </Router>
     );
   }
 }
