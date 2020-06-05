@@ -5,10 +5,11 @@ from .base import BaseDatabase, DatabaseException
 
 
 class SqliteDatabase(BaseDatabase):
-    def __new__(cls, db, *args, **kwargs):
-        obj = BaseDatabase.__new__(cls, db, *args, **kwargs)
+    def __new__(cls, *args, **kwargs):
+        obj = BaseDatabase.__new__(cls, *args, **kwargs)
         obj.name = 'sqlite'
         obj.connect()
+        obj.db = kwargs['database']
         obj.cursor = obj.engine.cursor()
         return obj
 
@@ -16,7 +17,7 @@ class SqliteDatabase(BaseDatabase):
         if self.connected:
             return self.engine
         try:
-            self.engine = sqlite3.connect(self.db, *self.args, **self.kwargs)
+            self.engine = sqlite3.connect(*self.args, **self.kwargs)
             self._connected = True
             return self.engine
         except sqlite3.Error as e:
