@@ -20,7 +20,7 @@ class Connect extends React.Component<any, any> {
       Password: "",
       Database: "mysql",
       DatabaseName: "",
-      color: "white"
+      color: "white",
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -34,27 +34,31 @@ class Connect extends React.Component<any, any> {
       Username: this.state.UserName,
       Password: this.state.Password,
       Database: this.state.Database,
-      DatabaseName: this.state.DatabaseName
+      DatabaseName: this.state.DatabaseName,
     };
     // TODO: send the object via fetch
+    const token = sessionStorage.getItem("jwt_token");
+    console.log("token is", token);
     const data = DBConfig;
     const init = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     };
     fetch("/db/" + this.state.Database + "/connect", init)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         console.log(data);
         if (data["result"] == "OK") {
           localStorage.setItem("database", this.state.Database);
           this.setState({ color: "green" });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({ color: "red" });
         console.error("Error:", error);
       });
@@ -69,7 +73,7 @@ class Connect extends React.Component<any, any> {
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
