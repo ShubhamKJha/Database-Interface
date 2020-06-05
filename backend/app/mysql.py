@@ -4,8 +4,6 @@ from flask import (
 from app import app, db
 from pyorm.databases.mysql import MysqlDatabase
 
-db = MysqlDatabase()
-
 
 @app.route('/db/mysql/connect', methods=['POST', 'GET'])
 def MySqlconnect():
