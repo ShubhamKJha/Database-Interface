@@ -22,7 +22,7 @@ def Logout():
     return jsonify({"response": "successfull"})
 
 
-@app.route("/auth/login", methods=['POST'])
+@app.route("/auth/login", methods=['GET','POST'])
 def Login():
     email = request.get_json()['email']
     password = request.get_json()['password']
