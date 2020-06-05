@@ -10,7 +10,6 @@ class App extends Component {
   render() {
     return (
       <Router history={history}>
-        <Route path="/list" component={List} />
         <Route path="/home" component={Main} />
         <Route exact path="/" component={LandingPage} />
       </Router>

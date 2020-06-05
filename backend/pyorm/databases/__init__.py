@@ -15,7 +15,7 @@ class connecting(object):   # context manager for connect_db
         self.res.disconnect()
 
 
-def connect_db(db_code, db_path, *args, **kwargs):
+def connect_db(db_code, db_path=None, *args, **kwargs):
     """
     This function connects to different databases that can be used within PYORM.
     Currently, two of these are supported

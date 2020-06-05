@@ -8,8 +8,8 @@ class MysqlDatabase(BaseDatabase):
     def __new__(cls, *args, **kwargs):
         obj = BaseDatabase.__new__(cls, *args, **kwargs)
         obj.name = 'mysql'
-        # obj.connect()
-        # obj.cursor = obj.engine.cursor()
+        obj.connect(**kwargs)
+        obj.cursor = obj.engine.cursor()
         return obj
 
     def connect(self, **kwargs):

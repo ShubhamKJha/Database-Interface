@@ -20,6 +20,7 @@ class Picklables(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     global_name = db.Column(db.Text)
     global_ = db.Column(db.BLOB)
+    user_id = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Picklable {}>'.format(self.global_name)
@@ -28,6 +29,7 @@ class Picklables(db.Model):
 class UnPicklables(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     unpicklable = db.Column(db.Text)
+    user_id = db.Column(db.Integer)
 
     def __repr__(self):
         return '<UnPicklable {}>'.format(self.unpicklable)
@@ -36,6 +38,7 @@ class UnPicklables(db.Model):
 class UnPicklableNames(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     unpicklable_name = db.Column(db.Text)
+    user_id = db.Column(db.Integer)
 
     def __repr__(self):
         return '<UnPicklableName {}>'.format(self.unpicklable_name)
@@ -45,6 +48,7 @@ class History(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     history_statement = db.Column(db.Text)
     history_result = db.Column(db.Text)
+    user_id = db.Column(db.Integer)
 
     def __str__(self):
         return '>>> {}\n...{}'.format(self.history_statement, self.history_result)
