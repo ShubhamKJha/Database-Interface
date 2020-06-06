@@ -19,7 +19,7 @@ class Login extends React.Component<any, any> {
     this.state = {
       Email: "",
       Password: "",
-      disabled: false
+      disabled: false,
     };
   }
 
@@ -27,25 +27,26 @@ class Login extends React.Component<any, any> {
     this.setState({ disabled: true });
     const DBConfig = {
       email: this.state.Email,
-      password: this.state.Password
+      password: this.state.Password,
     };
     // TODO: send the object via fetch
     const data = DBConfig;
     const init = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     };
     fetch("/auth/login", init)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
+      .then((res) => res.json())
+      .then((data) => {
+        data = JSON.parse(data);
+        sessionStorage.setItem("jwt_token", data["access_token"]);
         this.setState({ disabled: false });
         history.push("/home");
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error:", error);
       });
   }

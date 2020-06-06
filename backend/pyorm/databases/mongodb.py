@@ -6,8 +6,8 @@ class MongoDBDatabase(BaseDatabase):
     def __new__(cls, db, *args, **kwargs):
         obj = BaseDatabase.__new__(cls, db, *args, **kwargs)
         obj.name = 'mongo'
-        obj.connect()
-        obj.cursor = obj.engine
+        # obj.connect()
+        # obj.cursor = obj.engine
         return obj
 
     def connect(self):

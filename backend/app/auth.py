@@ -1,5 +1,5 @@
 from flask import (
-    request, jsonify, session
+    request, jsonify, session, Response, json
 )
 from datetime import datetime, timedelta
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -26,8 +26,8 @@ def Logout():
 def Login():
     email = request.get_json()['email']
     password = request.get_json()['password']
-    u = User.query.all()
-    print(u[0].email)
+    # u = User.query.all()
+    # print(u[0].email)
     response = User.query.filter_by(email=email).first()
     if response:
         print(response.email, response.password)
@@ -39,7 +39,11 @@ def Login():
                 'email': response.email
             }, expires_delta=expires)
             print(access_token)
-            return jsonify({'success': 'true', 'access_token': access_token})
+            message = json.dumps(
+                {"result": "successfully created", "access_token": access_token})
+            print(message)
+            resp = jsonify(message)
+            return resp
     return jsonify({"response": "Invalid username or password", "success": "false"})
 
 
