@@ -15,6 +15,8 @@ from . import db
 
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
+from pyorm import Engine
+
 def set_user_id(id_):
     global user_id
     
@@ -29,6 +31,7 @@ UNPICKLABLE_TYPES = (
   types.ModuleType,
   type,
   types.FunctionType,
+  Engine,
 )
 
 
@@ -294,6 +297,7 @@ class Shell:
             new_globals = {}
 
             for name, val in statement_module.__dict__.items():
+                # print(name, val)
                 if name not in old_globals or val != old_globals[name]:
                     new_globals[name] = val
 

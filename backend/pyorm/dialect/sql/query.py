@@ -45,7 +45,6 @@ class Query(object):
         value = result.get(rule[0])
         value = ('"%s"' if type(value) == str else '%s') % value
         other = '%s' % rule[2]
-        print('Checking ' + value + rule[1] + other)
         return eval(value + rule[1] + other)
 
     def _pack_query(self, result_set):
