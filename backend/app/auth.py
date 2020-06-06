@@ -26,8 +26,8 @@ def Logout():
 def Login():
     email = request.get_json()['email']
     password = request.get_json()['password']
-    u = User.query.all()
-    print(u[0].email)
+    # u = User.query.all()
+    # print(u[0].email)
     response = User.query.filter_by(email=email).first()
     print(response.email, response.password)
     if response:

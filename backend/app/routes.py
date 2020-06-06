@@ -42,6 +42,7 @@ def execute_command():
     user_id = get_jwt_identity()['id']
 
     history = History(user_id=user_id, history_statement=statement, history_result=stream.getvalue())
+    print("tes",stream.getvalue())
     db.session.add(history)
     db.session.commit()
     return jsonify({'result': "successfully connected", 'value':stream.getvalue()})
