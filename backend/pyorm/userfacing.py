@@ -14,10 +14,7 @@ def connect(db_name, username, password):
     elif db_name == 'mysql':
         dd = None
         try:
-            dd = connect_db('mysql', user=USERNAME, password=password,
+            return connect_db('mysql', user=USERNAME, password=password,
                         host=HOST, database=USERNAME)
         except Exception as e:
             log(f'Failed to connect to Database due to {e}', level='ERROR')
-
-        finally:
-            return dd
