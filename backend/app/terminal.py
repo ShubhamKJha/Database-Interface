@@ -175,7 +175,7 @@ class Shell:
 
     def split(self, source):
         try:
-            print("sourceis : ", BytesIO(source.encode()).readline, "-> ",tokenize.tokenize(BytesIO(source.encode()).readline))
+            # print("sourceis : ", BytesIO(source.encode()).readline, "-> ",tokenize.tokenize(BytesIO(source.encode()).readline))
             tokens = list(tokenize.tokenize(BytesIO(source.encode()).readline))
         except (OverflowError, SyntaxError, ValueError, tokenize.TokenError):
             return None, source

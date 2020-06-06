@@ -32,13 +32,13 @@ export function evalConsoleInput(consoleText) {
       .then(data => {
         // data = JSON.parse(data);
         console.log("data", data);
-        // dispatch(
-        //   addToConsoleHistory({
-        //     historyType: "CONSOLE_OUTPUT",
-        //     content: data["value"],
-        //     language: "python"
-        //   })
-        // );
+        dispatch(
+          addToConsoleHistory({
+            historyType: "CONSOLE_OUTPUT",
+            content: data["value"],
+            language: "python"
+          })
+        );
       })
       .catch(error => {
         console.error("Error:", error);
