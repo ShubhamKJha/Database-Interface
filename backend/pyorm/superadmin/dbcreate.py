@@ -3,7 +3,7 @@ from .dbconfig import ROOT_PASS, ROOT_HOST, HOST
 import pymysql, sqlite3
 from config import BASE_DIR
 import os
-
+from mylogging import log
 
 def create_user_mysql(username, password=None):
     with pymysql.connect(HOST, ROOT_HOST, ROOT_PASS,
@@ -11,6 +11,19 @@ def create_user_mysql(username, password=None):
         try:
             sql_create_user = "CREATE USER '%s'@'%s' IDENTIFIED BY '%s';" % (username, HOST, password)
             cursor.execute(sql_create_user)
+
+            log('User {} created'.format(username))
+
+            sql_create_database = "CREATE DATABASE %s" % (username)
+            cursor.execute(sql_create_database)
+
+            log('Database {} created'.format(username))
+
+            sql_permission_allow = "GRANT ALL PRIVILEGES ON %s.* TO '%s'@'%s'" % (username, username, HOST)
+            cursor.execute(sql_permission_allow)
+
+            log('Privileges given')
+
             cursor.close()
         except Exception as e:
             print("Error creating MySQL User: %s" % e)
