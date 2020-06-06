@@ -29,8 +29,8 @@ def Login():
     u = User.query.all()
     print(u[0].email)
     response = User.query.filter_by(email=email).first()
-    print(response.email, response.password)
     if response:
+        print(response.email, response.password)
         if bcrypt.check_password_hash(response.password, password):
             expires = timedelta(days=1)
             access_token = create_access_token(identity={

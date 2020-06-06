@@ -8,7 +8,7 @@ class MysqlDatabase(BaseDatabase):
     def __new__(cls, *args, **kwargs):
         obj = BaseDatabase.__new__(cls, *args, **kwargs)
         obj.name = 'mysql'
-        obj.connect(**kwargs)
+        obj.connect()
         obj.cursor = obj.engine.cursor()
         return obj
 
@@ -17,7 +17,7 @@ class MysqlDatabase(BaseDatabase):
             return self.engine
 
         try:
-            self.engine = pymysql.connect(**kwargs)
+            self.engine = pymysql.connect(*self.args, **self.kwargs)
             self._connected = True
             return self.engine
         except pymysql.OperationalError as e:

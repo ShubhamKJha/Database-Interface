@@ -15,6 +15,11 @@ from . import db
 
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
+def set_user_id(id_):
+    global user_id
+    
+    user_id = id_
+
 
 # These types can't be pickled
 # Hence, the commands needs to
@@ -28,7 +33,6 @@ UNPICKLABLE_TYPES = (
 
 
 def clear_data():
-    user_id = get_jwt_identity()['id']
     Picklables.query.filter_by(user_id=user_id).delete()
     UnPicklables.query.filter_by(user_id=user_id).delete()
     UnPicklableNames.query.filter_by(user_id=user_id).delete()
@@ -53,7 +57,6 @@ def fast_dumps(obj, protocol=3):
 
 def set_global(name, value, commit=True):
     blob = fast_dumps(value)
-    user_id = get_jwt_identity()['id']
 
     picklable = Picklables.query.filter_by(global_name=name).filter_by(user_id=user_id).first()
 
@@ -70,7 +73,6 @@ def set_global(name, value, commit=True):
 
 
 def remove_global(name, commit=True):
-    user_id = get_jwt_identity()['id']
     picklable = Picklables.query.filter_by(global_name=name).filter_by(user_id=user_id).first()
 
     if picklable is not None:
@@ -81,18 +83,15 @@ def remove_global(name, commit=True):
 
 
 def globals_dict():
-    user_id = get_jwt_identity()['id']
     return dict((picklable.global_name, pickle.loads(picklable.global_)) for picklable in
                 Picklables.query.filter_by(user_id=user_id).all())
 
 
 def get_unpicklables():
-    user_id = get_jwt_identity()['id']
     return [unpicklable.unpicklable for unpicklable in UnPicklables.query.filter_by(user_id=user_id).all()]
 
 
 def add_unpicklable(statement, names, commit=True):
-    user_id = get_jwt_identity()['id']
     unpicklable = UnPicklables(user_id=user_id,unpicklable=statement)
     db.session.add(unpicklable)
 
@@ -106,7 +105,6 @@ def add_unpicklable(statement, names, commit=True):
 
 
 def remove_unpicklable_name(name, commit=True):
-    user_id = get_jwt_identity()['id']
     unpicklable_name = UnPicklableNames.query.filter_by(unpicklable_name=name).filter_by(user_id=user_id).first()
     if unpicklable_name is not None:
         db.session.delete(unpicklable_name)

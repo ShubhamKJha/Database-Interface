@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask import (
     Blueprint, session, jsonify)
 from app import app, db
-from app.terminal import Shell
+from app.terminal import Shell, set_user_id
 from io import StringIO
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
@@ -33,13 +33,15 @@ def get_history():
 
 
 @app.route('/console/exec', methods=['POST', 'GET'])
-# @jwt_required
+@jwt_required
 def execute_command():
     statement = request.get_json()['command']
+    user_id = get_jwt_identity()['id']
+
+    set_user_id(user_id)
+    
     stream = StringIO()
     shell.evaluate(statement, stream=stream)
-
-    user_id = get_jwt_identity()['id']
 
     history = History(user_id=user_id, history_statement=statement, history_result=stream.getvalue())
     db.session.add(history)
