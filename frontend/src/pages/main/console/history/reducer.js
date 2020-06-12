@@ -1,4 +1,4 @@
-export default function historyReducer(state, action) {
+export default function historyReducer(state = {}, action) {
   switch (action.type) {
     case "console/history/ADD": {
       const actionCopy = Object.assign({}, action);

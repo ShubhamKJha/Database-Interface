@@ -11,13 +11,14 @@ db = MysqlDatabase()
 def MySqlconnect():
     endpoint = request.get_json()['Endpoint']
     database = request.get_json()['Database']
-    username = request.get_json()['Username']
+    username = request.get_json()['UserName']
     password = request.get_json()['Password']
+    databaseName = request.get_json()['DatabaseName']
     if 'conn' not in g:
         g.conn = db.connect(host=endpoint, database=database,
                             user=username, password=password).cursor()
-        g.conn.execute("CREATE DATABASE DDI")
-        g.conn.execute("USE DDI")
+        g.conn.execute("CREATE DATABASE {}".format(databaseName))
+        g.conn.execute("USE {}".format(databaseName))
 
     else:
         return jsonify({'result': 'OK', 'response': 'database instance already present'})

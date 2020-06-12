@@ -3,9 +3,9 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-import Connect from "./connect";
-import Create from "./create";
-import Insert from "./insert";
+import Connect from "./connect.jsx";
+import Create from "./create.jsx";
+import Insert from "./insert.jsx";
 import Update from "./update";
 import Delete from "./delete";
 import Info from "./info";

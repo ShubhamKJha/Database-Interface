@@ -2,12 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { isEqual } from "lodash";
-// import styles from '@emotion/styled';
-
 import HistoryItem from "./console/history/components/history-item";
 import ConsoleInput from "./console/input/components/console-input";
-
-// import classNames from 'classnames';
 
 export class ConsolePaneUnconnected extends React.Component {
   static propTypes = {
@@ -20,7 +16,6 @@ export class ConsolePaneUnconnected extends React.Component {
   }
 
   componentDidUpdate() {
-    // scroll to bottom on update
     this.historyScrollerRef.current.scrollTo({
       top: this.historyScrollerRef.current.scrollHeight,
       behavior: "smooth"
@@ -89,42 +84,17 @@ export class ConsolePaneUnconnected extends React.Component {
 
 function areStatesEqual(next, prev) {
   return isEqual(
-    next.history.map(h => h.historyId),
-    prev.history.map(h => h.historyId)
+    next.consoleHistory.map(h => h.historyId),
+    prev.consoleHistory.map(h => h.historyId)
   );
 }
 
 export function mapStateToProps(state) {
   return {
-    historyIds: state.history.map(h => h.historyId)
+    historyIds: state.consoleHistory.map(h => h.historyId)
   };
 }
 
 export default connect(mapStateToProps, null, null, { areStatesEqual })(
   ConsolePaneUnconnected
 );
-
-/*
-export function Console(): JSX.Element {
-  return (
-    <div className={styles.root}>
-      <div className={styles.header}>
-        <div className={styles.buttons}>
-          <div className={classNames([styles.button, styles.close])} />
-          <div className={classNames([styles.button, styles.minimize])} />
-          <div className={classNames([styles.button, styles.fullscreen])} />
-        </div>
-      </div>
-
-      <div className={styles.content} aria-hidden="true">
-        <code>
-
-        </code>
-      </div>
-      <div>
-        <ConsoleInput />
-        </div>
-    </div>
-  );
-}
-*/

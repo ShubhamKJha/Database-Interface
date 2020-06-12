@@ -1,11 +1,29 @@
 import { historySchema } from "../main/console/history/state-schema";
 import { consoleInputSchema } from "../main/console/input/state-schema";
-import { sampleInputSchema } from "../main/console/sampleinput/state-schema";
+import { DatabaseSchema } from "../main/database/state-schema";
 // FIXME: break out enums to be in a separate file.
 export const stateProperties = {
-  sampleInput: sampleInputSchema,
   consoleInput: consoleInputSchema,
-  history: historySchema
+  consoleHistory: historySchema,
+  databaseReducer: DatabaseSchema,
+  userReducer: {
+    type: "object",
+    properties: {
+      Name: { type: "string" },
+      Email: { type: "string" },
+      UserName: { type: "string" },
+      Password: { type: "string" },
+      Database: { type: "object" }
+    },
+    default: {
+      Name: "Database User",
+      Email: "",
+      UserName: "",
+      Password: "",
+      Database: ""
+    },
+    additionalProperties: false
+  }
 };
 
 export const stateSchema = {
