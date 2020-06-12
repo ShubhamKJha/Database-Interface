@@ -44,12 +44,14 @@ export class InsertUnconnected extends React.Component {
   static porpTypes = {
     MySqlSchema: PropTypes.object.isRequired,
     TableName: PropTypes.string.isRequired,
-    SchemaCreated: PropTypes.bool.isRequired
+    SchemaCreated: PropTypes.bool.isRequired,
+    Database: PropTypes.string.isRequired
   };
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      Database: this.props.Database,
       values: [],
       Schema: [],
       tables: [],
@@ -121,7 +123,10 @@ export class InsertUnconnected extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     this.setState({ open: false });
-    const data = this.state.values;
+    const data = {
+      inputField: this.state.values,
+      tableName: this.state.tableName
+    };
     const init = {
       method: "POST",
       headers: {
@@ -130,7 +135,7 @@ export class InsertUnconnected extends React.Component {
       body: JSON.stringify(data)
     };
     dispatch(insertData(this.state.values));
-    fetch("/db/connect", init)
+    fetch("/db/" + this.state.Database + "/insert", init)
       .then(res => res.json())
       .then(data => console.log(data))
       .catch(error => {
@@ -235,7 +240,8 @@ const mapDispatchToProps = {
 export const mapStateToProps = state => ({
   MySqlSchema: state.databaseReducer.MySqlSchema,
   TableName: state.databaseReducer.TableName,
-  SchemaCreated: state.databaseReducer.SchemaCreated
+  SchemaCreated: state.databaseReducer.SchemaCreated,
+  Database: state.databaseReducer.Database
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InsertUnconnected);

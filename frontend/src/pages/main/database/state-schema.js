@@ -4,7 +4,10 @@ export const DatabaseSchema = {
     Endpoint: { type: "string" },
     UserName: { type: "string" },
     Password: { type: "string" },
-    Database: { type: "string" },
+    Database: {
+      type: "string",
+      enum: ["mysql", "mongodb", "sqlite", "postgresql"]
+    },
     DatabaseName: { type: "string" },
     TableName: { type: "string" },
     connected: { type: "string" },

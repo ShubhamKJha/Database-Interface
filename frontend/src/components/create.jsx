@@ -57,7 +57,10 @@ export class CreateUnconnected extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ open: false });
-    const data = this.state.inputFields;
+    const data = {
+      inputField: this.state.inputFields,
+      tableName: this.state.tableName
+    };
     dispatch(updateTable(this.state.tableName));
     const init = {
       method: "POST",
