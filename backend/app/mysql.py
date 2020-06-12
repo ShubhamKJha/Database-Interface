@@ -3,21 +3,57 @@ from flask import (
     Blueprint, session, jsonify, g)
 from app import app, db
 from pyorm.databases.mysql import MysqlDatabase
+import pymysql
+conn = None
+
+
+def createCol(inputField):
+    col = []
+    for val in inputField:
+        if val['Type'] == 'varchar':
+            col.append(
+                f'{val["Field"]} {val["Type"]}(255) {(" ").join(val["fieldConstraints"].split("_"))}')
+        else:
+            col.append(
+                f'{val["Field"]} {val["Type"]} {(" ").join(val["fieldConstraints"].split("_"))}')
+    return col
+
+
+def insertData(inputField):
+    cols = []
+    vals = []
+    for val in inputField[0]:
+        cols.append(f'{val["Field"]}')
+    col = f'({", ".join(cols)})'
+    for v in inputField:
+        val = []
+        for r in v:
+            val.append(f'"{r["value"]}"')
+        vals.append(f'({", ".join(val)})')
+    Rows = f'{" ".join(vals)}'
+    query = f'{col} VALUES {Rows}'
+    print(query)
+
+    return query
+
+
+def mysqlConn():
+    conn = pymysql.connect(
+        host=session['host'], user=session['user'], password=session['password']).cursor()
+    return conn
 
 
 @app.route('/db/mysql/connect', methods=['POST', 'GET'])
 def MySqlconnect():
-    endpoint = request.get_json()['Endpoint']
-    database = request.get_json()['Database']
-    username = request.get_json()['UserName']
-    password = request.get_json()['Password']
-    databaseName = request.get_json()['DatabaseName']
+    session['host'] = request.get_json()['Endpoint']
+    session['database'] = request.get_json()['Database']
+    session['user'] = request.get_json()['UserName']
+    session['password'] = request.get_json()['Password']
+    session['databaseName'] = request.get_json()['DatabaseName']
     if 'conn' not in g:
-        g.conn = db.connect(host=endpoint, database=database,
-                            user=username, password=password).cursor()
-        g.conn.execute("CREATE DATABASE {}".format(databaseName))
-        g.conn.execute("USE {}".format(databaseName))
-
+        conn = mysqlConn()
+        conn.execute("CREATE DATABASE {}".format(session['databaseName']))
+        conn.execute("USE {}".format(session['databaseName']))
     else:
         return jsonify({'result': 'OK', 'response': 'database instance already present'})
     return jsonify({'result': "OK"})
@@ -26,21 +62,38 @@ def MySqlconnect():
 @app.route('/db/mysql/create', methods=['POST'])
 def MySqlcreate():
     print("create: ", request.get_json())
-    g.conn.execute('CREATE TABLE IF NOT EXIST Person ( \
-                            PersonId int Not Null primary key, \
-                            UserName varchar(255), \
-                            LastName varchar(255),\
-                            FirstName varchar(255), \
-                            Address varchar(255),\
-                            City varchar(255 )) ')
-
-    return jsonify({'result': "successfully created"})
+    data = request.get_json()
+    conn = mysqlConn()
+    conn.execute("USE {}".format(session.get('databaseName')))
+    columns = createCol(data['inputField'])
+    print(columns)
+    session['tableName'] = data["tableName"]
+    query = f'CREATE TABLE {session["tableName"]}({",".join(columns)})'
+    print(query)
+    try:
+        conn.execute(query)
+    except Exception as e:
+        print(e)
+        return jsonify({'result': 'Error', 'message': 'Something happend with database'})
+    return jsonify({'result': 'OK', 'message': 'Table created properly'})
 
 
 @ app.route('/db/mysql/insert', methods=['POST'])
 def MySqlinsert():
     print("inserted: ", request.get_json())
-    return jsonify({'result': "successfully inserted"})
+    data = request.get_json()
+    conn = mysqlConn()
+    conn.execute("USE {}".format(session.get('databaseName')))
+    ins = insertData(data['inputField'])
+    print(ins)
+    query = f'INSERT INTO TABLE {session["tableName"]} {ins}'
+    print(query)
+    try:
+        conn.execute(query)
+    except Exception as e:
+        print(e)
+        return jsonify({'result': 'Error', 'message': 'Something happend with database'})
+    return jsonify({'result': 'OK', 'message': 'Data successfully inserted'})
 
 
 @ app.route('/db/mysql/update', methods=['POST'])
