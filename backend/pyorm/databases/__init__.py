@@ -51,14 +51,14 @@ def connect_db(db_code, db_path=None, *args, **kwargs):
         try:
             import sqlite3
             from .sqlite import SqliteDatabase
-            return Engine(SqliteDatabase(db_path, *args, **kwargs))
+            return Engine(SqliteDatabase(*args, **kwargs))
         except ImportError:
             raise DatabaseException("'sqlite3' module is not present which is a requisite.")
     elif db_code == 'mysql':
         try:
             import pymysql
             from .mysql import MysqlDatabase
-            return Engine(MysqlDatabase(db_path, *args, **kwargs))
+            return Engine(MysqlDatabase(*args, **kwargs))
         except ImportError:
             raise DatabaseException("'pymysql' module is not present which is a requisite.")
     else:

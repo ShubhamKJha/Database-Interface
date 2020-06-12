@@ -34,7 +34,7 @@ class Query(object):
         for item in self.result:
             flag = True
             for rule in args:
-                if not self._filter(item, rule):
+                if not self._filter(item, rule.split()):
                     flag = False
             if flag:
                 filter_set.append(item)
@@ -43,8 +43,9 @@ class Query(object):
     @staticmethod
     def _filter(result, rule):
         value = result.get(rule[0])
-        other = rule[2]
-        return eval("%s%s%s" % (value, rule[1], other))
+        value = ('"%s"' if type(value) == str else '%s') % value
+        other = '%s' % rule[2]
+        return eval(value + rule[1] + other)
 
     def _pack_query(self, result_set):
         q = Query(self._unpack_query(result_set))
