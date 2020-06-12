@@ -1,11 +1,21 @@
 import React from "react";
 import PermDataSettingSharpIcon from "@material-ui/icons/PermDataSettingSharp";
 
-import { Menu, MenuItem, MenuList } from "@material-ui/core";
+import { MenuItem, MenuList } from "@material-ui/core";
 import styles from "./Header.module.css";
+import history from "../utils/history";
 
 export function Header(): JSX.Element {
-  const handleClick = (e: any) => {};
+  const handleClick = (e: any) => {
+    if (e.target.id === "profile") {
+      history.push("/profile");
+    } else if (e.target.id === "docs") {
+      history.push("/docs");
+    } else {
+      history.push("/");
+      sessionStorage.clear();
+    }
+  };
 
   return (
     <div data-attr="someattr" className={styles.head}>

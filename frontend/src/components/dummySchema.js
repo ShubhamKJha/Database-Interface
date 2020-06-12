@@ -1,27 +1,27 @@
 export const dummySchema = [
   {
-    fieldName: "Name",
-    fieldType: "CharField",
+    Field: "Name",
+    Type: "CharField",
     value: ""
   },
   {
-    fieldName: "Father Name",
-    fieldType: "CharField",
+    Field: "Father Name",
+    Type: "CharField",
     value: ""
   },
   {
-    fieldName: "Mother Name",
-    fieldType: "CharField",
+    Field: "Mother Name",
+    Type: "CharField",
     value: ""
   },
   {
-    fieldName: "Date of Birth",
-    type: "Date",
+    Field: "Date of Birth",
+    Type: "Date",
     value: ""
   },
   {
-    fieldName: "Age",
-    fieldType: "Integer",
+    Field: "Age",
+    Type: "Integer",
     value: ""
   }
 ];

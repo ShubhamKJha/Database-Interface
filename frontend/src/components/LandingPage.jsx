@@ -1,26 +1,11 @@
-import React, { Component, ChangeEvent, Props } from "react";
+import React from "react";
 import styles from "./Landing.module.css";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Card,
-  Tabs,
-  Tab,
-  Box
-} from "@material-ui/core";
+import { Toolbar, Typography, Tabs, Tab, Box } from "@material-ui/core";
 import Login from "./Login";
 import PermDataSettingSharpIcon from "@material-ui/icons/PermDataSettingSharp";
 import SignUp from "./Signup";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: any;
-}
-
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props) {
   const { children, index, value, ...other } = props;
   return (
     <div
@@ -35,8 +20,8 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-class LandingPage extends React.Component<any, any> {
-  constructor(props: any) {
+class LandingPage extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       values: 0
@@ -45,13 +30,13 @@ class LandingPage extends React.Component<any, any> {
     this.a11Props = this.a11Props.bind(this);
   }
 
-  a11Props = (index: any) => {
+  a11Props = index => {
     return {
       id: `auth-${index}`,
       "area-controls": `tabpanel-${index}`
     };
   };
-  handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  handleChange = (event, newValue) => {
     this.setState({ values: newValue });
   };
 

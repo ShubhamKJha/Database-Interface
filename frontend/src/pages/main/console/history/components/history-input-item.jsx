@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import ConsoleContainer from "./console-container";
 
-const inputBackgroundColor = (opacity = 1) => `rgba(251,251,253,${opacity})`;
-
 const InputContainer = styled(ConsoleContainer)`
   overflow: auto;
   margin-bottom: 0px;

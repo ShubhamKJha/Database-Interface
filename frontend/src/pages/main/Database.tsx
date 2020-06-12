@@ -64,13 +64,13 @@ export default function Database() {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          Sqlite Panel
+          <CustomizedTreeView />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Mysql Panel
+          <CustomizedTreeView />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Mongodb Panle
+          <CustomizedTreeView />
         </TabPanel>
         <TabPanel value={value} index={3}>
           <CustomizedTreeView />

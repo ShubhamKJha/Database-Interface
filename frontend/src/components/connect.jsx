@@ -5,22 +5,32 @@ import Button from "@material-ui/core/Button";
 import LinkIcon from "@material-ui/icons/Link";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-// import PropTypes from 'prop-types';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import NativeSelect from "@material-ui/core/NativeSelect";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { connectDatabase } from "../pages/main/database/actions";
+import { dispatch } from "../pages/store";
 
-class Connect extends React.Component<any, any> {
-  constructor(props: any) {
+export class ConnectUnconnected extends React.Component {
+  static propTypes = {
+    Endpoint: PropTypes.string.isRequired,
+    UserName: PropTypes.string.isRequired,
+    Password: PropTypes.string.isRequired,
+    Database: PropTypes.string.isRequired,
+    DatabaseName: PropTypes.string.isRequired
+  };
+  constructor(props) {
     super(props);
     this.state = {
       show: false,
-      Endpoint: "",
-      UserName: "",
-      Password: "",
-      Database: "mysql",
-      DatabaseName: "",
-      color: "white",
+      Endpoint: this.props.Endpoint,
+      UserName: this.props.UserName,
+      Password: this.props.Password,
+      Database: this.props.Database,
+      DatabaseName: this.props.DatabaseName,
+      color: "white"
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -31,10 +41,10 @@ class Connect extends React.Component<any, any> {
     this.setState({ show: false });
     const DBConfig = {
       Endpoint: this.state.Endpoint,
-      Username: this.state.UserName,
+      UserName: this.state.UserName,
       Password: this.state.Password,
       Database: this.state.Database,
-      DatabaseName: this.state.DatabaseName,
+      DatabaseName: this.state.DatabaseName
     };
     // TODO: send the object via fetch
     const token = sessionStorage.getItem("jwt_token");
@@ -45,20 +55,21 @@ class Connect extends React.Component<any, any> {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     };
     fetch("/db/" + this.state.Database + "/connect", init)
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         console.log(data);
-        if (data["result"] == "OK") {
+        if (data["result"] === "OK") {
           localStorage.setItem("database", this.state.Database);
           this.setState({ color: "green" });
+          dispatch(connectDatabase(DBConfig));
         }
       })
-      .catch((error) => {
+      .catch(error => {
         this.setState({ color: "red" });
         console.error("Error:", error);
       });
@@ -68,12 +79,12 @@ class Connect extends React.Component<any, any> {
     this.setState({ show: true });
   }
 
-  handleInputChange(event: any) {
+  handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -172,4 +183,16 @@ class Connect extends React.Component<any, any> {
   }
 }
 
-export default Connect;
+const mapDispatchToProps = {
+  connectDatabase
+};
+
+export const mapStateToProps = state => ({
+  Endpoint: state.databaseReducer.Endpoint,
+  UserName: state.databaseReducer.UserName,
+  Password: state.databaseReducer.Password,
+  Database: state.databaseReducer.Database,
+  DatabaseName: state.databaseReducer.DatabaseName
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectUnconnected);

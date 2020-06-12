@@ -1,5 +1,5 @@
-export default function inputReducer(state, action) {
-  const { consoleInput } = state;
+export default function inputReducer(state = {}, action) {
+  const consoleInput = state;
   switch (action.type) {
     case "console/input/UPDATE_TEXT": {
       return Object.assign({}, state, {

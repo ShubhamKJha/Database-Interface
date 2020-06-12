@@ -1,25 +1,29 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import PropTypes from "prop-types";
 import history from "../utils/history";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { UserLogin } from "../pages/main/actions/actions.js";
+import { dispatch } from "../pages/store";
 
-interface state {
-  Email: string;
-  Password: string;
-  disabled: boolean;
-}
+export class LoginUnconnected extends React.Component {
+  static propTypes = {
+    Email: PropTypes.string.isRequired,
+    Password: PropTypes.string.isRequired,
+    UserName: PropTypes.string.isRequired,
+    UserLogin: PropTypes.func.isRequired
+  };
 
-// const navigation = useNavigation();
-
-class Login extends React.Component<any, any> {
-  constructor(props: any) {
+  constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.state = {
-      Email: "",
-      Password: "",
-      disabled: false,
+      Email: this.props.Email,
+      Name: this.props.Name,
+      Password: this.props.Password,
+      UserName: this.props.UserName,
+      disabled: false
     };
   }
 
@@ -27,31 +31,32 @@ class Login extends React.Component<any, any> {
     this.setState({ disabled: true });
     const DBConfig = {
       email: this.state.Email,
-      password: this.state.Password,
+      password: this.state.Password
     };
     // TODO: send the object via fetch
     const data = DBConfig;
     const init = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     };
     fetch("/auth/login", init)
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         data = JSON.parse(data);
         sessionStorage.setItem("jwt_token", data["access_token"]);
         this.setState({ disabled: false });
         history.push("/home");
+        dispatch(UserLogin(data.data));
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error:", error);
       });
   }
 
-  handleInputChange(event: any) {
+  handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -96,4 +101,16 @@ class Login extends React.Component<any, any> {
     );
   }
 }
-export default Login;
+
+const mapDispatchToProps = {
+  UserLogin
+};
+
+export const mapStateToProps = state => ({
+  Email: state.userReducer.Email,
+  Password: state.userReducer.Password,
+  UserName: state.userReducer.UserName,
+  Name: state.userReducer.Name
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginUnconnected);

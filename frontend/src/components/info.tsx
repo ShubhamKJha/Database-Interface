@@ -1,27 +1,14 @@
-import React, { useState, Component, Fragment } from "react";
-import InfoIcon from "@material-ui/icons/Info";
+import React, { Fragment } from "react";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-// import NativeSelect from '@material-ui/core/NativeSelect';
-// import {createSchema} from '../pages/actions/schema-create-action';
-import Box from "@material-ui/core/Box";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import { dummySchema } from "./dummySchema";
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    box: {
-      display: "flex",
-      flexDirection: "row"
-    }
-  })
-);
 
 class Info extends React.Component<any, any> {
   constructor(props: any) {
@@ -85,9 +72,9 @@ class Info extends React.Component<any, any> {
   render() {
     return (
       <div>
-        <Tooltip title="Info">
+        <Tooltip title="View">
           <IconButton size="small" aria-label="add">
-            <InfoIcon style={{ color: "white" }} />
+            <VisibilityIcon style={{ color: "white" }} />
           </IconButton>
         </Tooltip>
 

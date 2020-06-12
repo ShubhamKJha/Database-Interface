@@ -1,14 +1,6 @@
 import React from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import LinkIcon from "@material-ui/icons/Link";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-// import PropTypes from 'prop-types';
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import history from "../utils/history";
 
 class SignUp extends React.Component<any, any> {
   constructor(props: any) {
@@ -45,6 +37,7 @@ class SignUp extends React.Component<any, any> {
       .then(data => {
         this.setState({ disabled: false });
         console.log(data);
+        history.push("/home");
       })
       .catch(error => {
         console.error("Error:", error);
