@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./Home.module.css";
-import Database from "./Database";
+import Database from "./Database.jsx";
 import Console from "./Console";
 import classNames from "classnames";
 

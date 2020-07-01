@@ -1,18 +1,23 @@
-.side-bar{
-    color: white;
-    width: 20px;
+.side-bar {
+  color: white;
+  width: 20px;
 }
 
 .main_view {
   color: white;
   background-color: inherit;
-  min-Height: 396px;
+  min-height: 396px;
 }
 
-.database{
+.database {
   display: flex;
   height: 80%;
   flex-direction: row;
   width: 100%;
-
+}
+.databasePanel {
+  maxheight: 92%;
+  overflow: auto;
+  color: cyan;
+  scroll: vertical;
 }

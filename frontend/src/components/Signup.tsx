@@ -37,7 +37,7 @@ class SignUp extends React.Component<any, any> {
       .then(data => {
         this.setState({ disabled: false });
         console.log(data);
-        history.push("/home");
+        history.push("/");
       })
       .catch(error => {
         console.error("Error:", error);

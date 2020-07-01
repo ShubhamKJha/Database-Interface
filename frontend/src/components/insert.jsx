@@ -134,10 +134,12 @@ export class InsertUnconnected extends React.Component {
       },
       body: JSON.stringify(data)
     };
-    dispatch(insertData(this.state.values));
     fetch("/db/" + this.state.Database + "/insert", init)
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        dispatch(insertData(this.state.values));
+        console.log(data)
+        })
       .catch(error => {
         console.error("Error:", error);
       });

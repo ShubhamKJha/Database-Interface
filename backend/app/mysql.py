@@ -28,9 +28,12 @@ def insertData(inputField):
     for v in inputField:
         val = []
         for r in v:
-            val.append(f'"{r["value"]}"')
+            if r['Type'] == "int":
+                val.append(f'{r["value"]}')
+            else:
+                val.append(f'"{r["value"]}"')
         vals.append(f'({", ".join(val)})')
-    Rows = f'{" ".join(vals)}'
+    Rows = f'{", ".join(vals)}'
     query = f'{col} VALUES {Rows}'
     print(query)
 
@@ -39,7 +42,7 @@ def insertData(inputField):
 
 def mysqlConn():
     conn = pymysql.connect(
-        host=session['host'], user=session['user'], password=session['password']).cursor()
+        host=session['host'], user=session['user'], password=session['password'])
     return conn
 
 
@@ -52,8 +55,10 @@ def MySqlconnect():
     session['databaseName'] = request.get_json()['DatabaseName']
     if 'conn' not in g:
         conn = mysqlConn()
-        conn.execute("CREATE DATABASE {}".format(session['databaseName']))
-        conn.execute("USE {}".format(session['databaseName']))
+        cur = conn.cursor()
+        cur.execute("CREATE DATABASE {}".format(session['databaseName']))
+        conn.commit()
+        conn.close()
     else:
         return jsonify({'result': 'OK', 'response': 'database instance already present'})
     return jsonify({'result': "OK"})
@@ -64,14 +69,16 @@ def MySqlcreate():
     print("create: ", request.get_json())
     data = request.get_json()
     conn = mysqlConn()
-    conn.execute("USE {}".format(session.get('databaseName')))
+    conn.cursor().execute("USE {}".format(session.get('databaseName')))
     columns = createCol(data['inputField'])
     print(columns)
     session['tableName'] = data["tableName"]
     query = f'CREATE TABLE {session["tableName"]}({",".join(columns)})'
     print(query)
     try:
-        conn.execute(query)
+        conn.cursor().execute(query)
+        conn.commit()
+        conn.close()
     except Exception as e:
         print(e)
         return jsonify({'result': 'Error', 'message': 'Something happend with database'})
@@ -80,16 +87,18 @@ def MySqlcreate():
 
 @ app.route('/db/mysql/insert', methods=['POST'])
 def MySqlinsert():
-    print("inserted: ", request.get_json())
+    # print("inserted: ", request.get_json())
     data = request.get_json()
     conn = mysqlConn()
-    conn.execute("USE {}".format(session.get('databaseName')))
+    conn.cursor().execute("USE {}".format(session.get('databaseName')))
     ins = insertData(data['inputField'])
     print(ins)
-    query = f'INSERT INTO TABLE {session["tableName"]} {ins}'
+    query = f'INSERT INTO {session["tableName"]} {ins}'
     print(query)
     try:
-        conn.execute(query)
+        conn.cursor().execute(query)
+        conn.commit()
+        conn.close()
     except Exception as e:
         print(e)
         return jsonify({'result': 'Error', 'message': 'Something happend with database'})
