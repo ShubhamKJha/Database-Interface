@@ -11,7 +11,7 @@ email-validator==1.1.0
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
 Flask-Caching==1.4.0
-Flask-Cors==3.0.7
+Flask-Cors==3.0.9
 Flask-JWT==0.3.2
 Flask-JWT-Extended==3.24.1
 Flask-Login==0.3.2
